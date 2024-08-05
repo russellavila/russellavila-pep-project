@@ -1,6 +1,7 @@
 package Service;
 
 import Model.Account;
+import Model.Message;
 import DAO.*;
 
 public class MediaService {
@@ -17,6 +18,10 @@ public class MediaService {
 
     public Account getAccount(Account account){
         return socialMediaDao.getAccount(account);
+    }
+
+    public Message postMessage (Message message){
+        return socialMediaDao.postMessage(message);
     }
     
 }
