@@ -2,7 +2,6 @@ package Controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import Model.Account;
 import Service.MediaService;
 import io.javalin.Javalin;
@@ -40,16 +39,24 @@ public class SocialMediaController {
     private void postAccountHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Account account = mapper.readValue(ctx.body(), Account.class);
-        Account newAccount = service.addAccount(account);
-        if((newAccount.getUsername() == "") || (newAccount.getPassword().length() < 4) || (newAccount == null)){
+        
+        if((account.getUsername() == "") || (account.getPassword().length() < 4 || (service.getAccount(account) != null))){
             ctx.status(400);
         } else {
-            ctx.json(mapper.writeValueAsString(newAccount));
+                Account newAccount = service.addAccount(account);
+                ctx.json(mapper.writeValueAsString(newAccount));
         }
     }
 
-    private void loginAccountHandler(Context context) {
-        context.json("sample text");
+    private void loginAccountHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Account account = mapper.readValue(ctx.body(), Account.class);
+        Account fetchedAccount = service.getAccount(account);
+        if(fetchedAccount == null){
+            ctx.status(401);
+        } else {
+            ctx.json(service.getAccount(account));
+        }
     }
 
     private void postMessageHandler(Context context) {

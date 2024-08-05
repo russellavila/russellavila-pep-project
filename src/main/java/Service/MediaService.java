@@ -14,5 +14,9 @@ public class MediaService {
     public Account addAccount(Account account){
         return socialMediaDao.addAccount(account);
     }
+
+    public Account getAccount(Account account){
+        return socialMediaDao.getAccount(account);
+    }
     
 }
