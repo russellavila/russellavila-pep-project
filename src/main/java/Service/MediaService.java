@@ -2,6 +2,7 @@ package Service;
 
 import Model.Account;
 import Model.Message;
+import java.util.List;
 import DAO.*;
 
 public class MediaService {
@@ -22,6 +23,10 @@ public class MediaService {
 
     public Message postMessage (Message message){
         return socialMediaDao.postMessage(message);
+    }
+
+    public List<Message> getAllMessages(){
+        return socialMediaDao.getAllMessages();
     }
     
 }

@@ -72,8 +72,8 @@ public class SocialMediaController {
         }
     }
 
-    private void getMessageHandler(Context context) {
-        context.json("sample text");
+    private void getMessageHandler(Context ctx) {
+        ctx.json(service.getAllMessages());
     }
 
     private void getMessageByIdHandler(Context context) {
