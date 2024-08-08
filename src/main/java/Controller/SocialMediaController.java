@@ -108,11 +108,21 @@ public class SocialMediaController {
         }
     }
 
-    private void patchMessageByIdHandler(Context context) {
-        context.json("sample text");
+    private void patchMessageByIdHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        int message_id = Integer.parseInt(ctx.pathParam("message_id"));
+        String message_text = message.getMessage_text();//ctx.pathParam("message_text");
+        Message fetchedMessage = service.getMessageById(message_id);
+
+        if (message_text == "" || message_text.length() > 255 || fetchedMessage == null){
+            ctx.status(400);
+        } else {
+            ctx.json(service.patchMessageById(message_id, message));
+        }
     }
 
-    private void getAllAccountMsgByIdHandler(Context context) {
+    private void getAllAccountMsgByIdHandler(Context ctx) {
         context.json("sample text");
     }
 

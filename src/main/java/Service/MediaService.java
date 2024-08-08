@@ -40,5 +40,12 @@ public class MediaService {
     public Message deleteMessageById(int id){
         return socialMediaDao.getMessageById(id);
     }
+
+    public Message patchMessageById(int id, Message message){
+        return socialMediaDao.patchMessageById(id, message);
+    }
     
+    public List <Message> getAllAccountMsgById(int id){
+        return socialMediaDao.getAllAccountMsgById(id);
+    }
 }
