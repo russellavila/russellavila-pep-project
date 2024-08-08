@@ -24,6 +24,7 @@ public class SocialMediaController {
         Javalin app = Javalin.create();
         app.post("/register", this::postAccountHandler);
         app.post("/login", this::loginAccountHandler);
+        app.get("/login", this::getAccountByIdHandler);
         app.post("/messages", this::postMessageHandler);
         app.get("/messages", this::getMessageHandler);
         app.get("/messages/{message_id}", this::getMessageByIdHandler);
@@ -63,8 +64,9 @@ public class SocialMediaController {
     private void postMessageHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Message message = mapper.readValue(ctx.body(), Message.class);
+        Account fetchedAccount = service.getAccountById(message.getPosted_by());
 
-        if((message.getMessage_text() == "") || (message.getMessage_text().length() > 255)){
+        if((message.getMessage_text() == "") || (message.getMessage_text().length() > 255) || fetchedAccount == null){
             ctx.status(400);
         } else {
                 Message newMessage = service.postMessage(message);
@@ -83,6 +85,16 @@ public class SocialMediaController {
             ctx.json("");
         } else {
         ctx.json(service.getMessageById(message_id));
+        }
+    }
+
+    private void getAccountByIdHandler (Context ctx){
+        int account_id = Integer.parseInt(ctx.pathParam("account_id"));
+        Account fetchedAccount = service.getAccountById(account_id);
+        if(fetchedAccount == null){
+            ctx.json("");
+        } else {
+        ctx.json(service.getAccountById(account_id));
         }
     }
 

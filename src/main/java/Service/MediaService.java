@@ -32,5 +32,9 @@ public class MediaService {
     public Message getMessageById(int id){
         return socialMediaDao.getMessageById(id);
     }
+
+    public Account getAccountById(int id){
+        return socialMediaDao.getAccountById(id);
+    }
     
 }
