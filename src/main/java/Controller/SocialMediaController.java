@@ -98,8 +98,14 @@ public class SocialMediaController {
         }
     }
 
-    private void deleteMessageByIdHandler(Context context) {
-        context.json("sample text");
+    private void deleteMessageByIdHandler(Context ctx) {
+        int message_id = Integer.parseInt(ctx.pathParam("message_id"));
+        Message deletedMessage = service.deleteMessageById(message_id);
+        if(deletedMessage == null){
+            ctx.json("");
+        } else {
+        ctx.json(service.deleteMessageById(message_id));
+        }
     }
 
     private void patchMessageByIdHandler(Context context) {

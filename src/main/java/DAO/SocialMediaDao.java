@@ -124,4 +124,30 @@ public class SocialMediaDao {
         return null;
     }
 
+    public Message deleteMessageById(int id){
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+
+            String sql = "SELECT * FROM message WHERE message_id = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            String sqlDelete = "DELETE FROM message WHERE message_id = ?";
+
+            PreparedStatement preparedStatementTwo = connection.prepareStatement(sqlDelete);
+            preparedStatementTwo.setInt(1, id);
+            preparedStatement.executeUpdate();
+            
+            while(rs.next()){
+                Message deletedMessage = new Message(rs.getInt("message_id"), rs.getInt("posted_by"), rs.getString("message_text"), rs.getLong("time_posted_epoch"));
+                return deletedMessage;
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
 }

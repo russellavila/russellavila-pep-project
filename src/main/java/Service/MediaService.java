@@ -36,5 +36,9 @@ public class MediaService {
     public Account getAccountById(int id){
         return socialMediaDao.getAccountById(id);
     }
+
+    public Message deleteMessageById(int id){
+        return socialMediaDao.getMessageById(id);
+    }
     
 }
